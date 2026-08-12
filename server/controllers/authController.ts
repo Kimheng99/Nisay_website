@@ -25,7 +25,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!validEmail.test(email.trim().toLowerCase())){
-        return res.status(400).json({message: "Please iput the valid email!"})
+        return res.status(400).json({message: "Please input the valid email!"})
     }
 
     if (password.length < 6){
