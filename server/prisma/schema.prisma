@@ -64,6 +64,33 @@ enum AdminActionType {
   REJECT_SHOP
   CHANGE_ROLE
 }
+enum Province {
+  PHNOM_PENH
+  BANTEAY_MEANCHEY
+  BATTAMBANG
+  KAMPONG_CHAM
+  KAMPONG_CHHNANG
+  KAMPONG_SPEU
+  KAMPONG_THOM
+  KAMPOT
+  KANDAL
+  KEP
+  KOH_KONG
+  KRATIE
+  MONDULKIRI
+  ODDAR_MEANCHEY
+  PAILIN
+  PREAH_SIHANOUK
+  PREAH_VIHEAR
+  PURSAT
+  RATTANAKIRI
+  SIEM_REAP
+  STUNG_TRENG
+  SVAY_RIENG
+  TAKEO
+  TBONG_KHMUM
+  PREY_VENG
+}
 
 model User {
   id String @id @default(uuid())
@@ -126,6 +153,9 @@ model Shop {
   description String?
   address     String?
   phone       String?
+  province    Province
+  nearFee     Decimal @default(0) @db.Decimal(12,2)
+  farFee      Decimal @default(0) @db.Decimal(12,2)
   status      ShopStatus @default(PENDING)
   deletedAt   DateTime? 
   createdAt   DateTime   @default(now())
@@ -211,8 +241,9 @@ model Order {
   userId       String
   totalAmount  Decimal  @db.Decimal(12, 2) 
   receiverName String
+  shippingAddress  String
+  shippingProvince Province
   createdAt    DateTime @default(now())
-
   user       User        @relation(fields: [userId], references: [id])
   shopOrders ShopOrder[] 
   payment    Payment?
