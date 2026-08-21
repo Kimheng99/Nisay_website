@@ -11,11 +11,9 @@ const generateToken = (id: string): string => {
         process.env.JWT_SECRET as string,
         {
             expiresIn: "30d",
-        }
-        
+        } 
     )
 }
-
 export const registerUser = async (req: Request, res: Response) => {
 
     const {name, email, password} = req.body;
@@ -58,8 +56,6 @@ export const registerUser = async (req: Request, res: Response) => {
     delete userData.password;
 
     res.status(201).json({user: userData, token})
-
-
 }
 
 export const login = async (req: Request, res: Response) => {
@@ -70,11 +66,9 @@ export const login = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({
         where: {email: email.trim().toLowerCase()}
     })
-
     if(!user){
         return res.status(401).json({message: "Invalid email or password!"})
     }
-
     const isMatch = await bcrypt.compare(password, user.password );
     if(!isMatch){
         return res.status(401).json({message: "Invalid email or password!"})
