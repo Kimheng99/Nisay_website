@@ -3,6 +3,7 @@ import { calculateOrderBreakdown } from "../utils/orderCalculator.js";
 import { prisma } from "../config/prisma.js";
 import { PaymentMethod } from "../generated/prisma/client.js";
 
+ // GET api/orders/orderSummary
 export const calculateOrderSummary = async (req: Request, res: Response) => {
   try {
     const { items, shippingProvince } = req.body;
@@ -396,7 +397,7 @@ export const getOrder = async (req: Request, res: Response) => {
   }
 };
 
-// PUT /api/orders/:id/status  — ✅ no changes needed, doesn't touch address fields
+// PUT /api/orders/:id/status 
 export const updateOrderStatus = async (req: Request, res: Response) => {
   try {
     const { status, shopOrderId } = req.body;

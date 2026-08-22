@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../config/prisma.js";
 import { Province } from "../generated/prisma/client.js";
 
-const phoneRegex = /^[0-9]{10}$/;
+const phoneRegex = /^[0-9]{9,10}$/;
 
 // Shared validation for create/update
 const validateAddressInput = (body: any, isUpdate = false) => {
@@ -18,7 +18,7 @@ const validateAddressInput = (body: any, isUpdate = false) => {
       return "Phone is required";
     }
     if (!phoneRegex.test(phone.trim())) {
-      return "Invalid phone number format (10 digits required)";
+      return "Phone number must contain 9 or 10 digits";
     }
   }
   if (!isUpdate || province !== undefined) {
@@ -189,7 +189,7 @@ export const deleteAddress = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "Address deleted successfully" });
   } catch (error: any) {
-    // Prisma throws P2003 (foreign key constraint) because Order.address has onDelete: Restrict
+    
     if (error.code === "P2003") {
       return res.status(400).json({
         message: "This address is used in an existing order and cannot be deleted",
